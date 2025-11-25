@@ -24,6 +24,9 @@ class AnaDatabase:
         print("- Criando tabelas")
         # Tabela de Leituras
         self.cursor.execute("""
+    DROP TABLE IF EXISTS leituras;
+""")
+        self.cursor.execute("""
         CREATE TABLE IF NOT EXISTS leituras (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             intervencao_id TEXT NOT NULL,
