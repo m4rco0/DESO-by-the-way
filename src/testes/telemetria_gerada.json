@@ -16,6 +16,13 @@
       "codigoTransmissao": 100
     },
     {
+      "horario": "2025-11-24T18:57:21.013872-03:00",
+      "vazao": 1.01,
+      "duracao": 300,
+      "volume": 1024.4,
+      "codigoTransmissao": 100
+    },
+    {
       "horario": "2025-11-24T19:02:21.013872-03:00",
       "vazao": 3.43,
       "duracao": 300,

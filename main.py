@@ -1,22 +1,26 @@
 from mangaba_agent import MangabaAgent
+from src.database.sql_con import AnaDatabase
+import os
 import json
+JSON_PATH = 'src/testes/telemetria_gerada.json'
 
-agent = MangabaAgent()
+lampiao = MangabaAgent(
+    api_key= os.getenv('GOOGLE_API_KEY'),
+    agent_id='lampião',
+    enable_mcp=True
+)
+db = AnaDatabase(db_name="telemetria.db")
+db.importar_telemetria(JSON_PATH)
 
-NOME_ARQUIVO = 'src/testes/telemetria_gerada.json'
-try:
-    with open(NOME_ARQUIVO, 'r', encoding='utf-8') as arquivo:
-        # A função json.load() lê o arquivo e converte o JSON em um dicionário Python
-        dados_python = json.load(arquivo)
-        
-        print("✅ Dados JSON lidos e convertidos com sucesso para dicionário Python:")
-        print(f"Tipo de dados lidos: {type(dados_python)}")
-        print(f"dados JSON: {dados_python}")
+print("\n--- CONSULTA 1: Todas as leituras ---")
+todas_leituras = db.buscar_leituras()
+for l in todas_leituras:
+    print(f"ID: {l['id']} | time: {l['horario']} vazao: {l['vazao']} volume: {l['volume']} codigo de transmissão: {l['codigoTransmissao']} ")
 
-        resposta = agent.chat(f"Analise esses dados e tente verificar os erros no monitoramento da agua: {dados_python}")
-        print(f"Resposta do MangabaAgent: {resposta}")
-except json.JSONDecodeError:
-    print("❌ Erro: O arquivo não está em um formato JSON válido.")
-except Exception as e:
-    print(f"❌ Ocorreu um erro: {e}")
+print("---  Mandando para o prompt do mangaba os dados")
 
+
+
+resposta = lampiao.chat(f" Verifique os codigos de transmissão e  a difereça de vazao em relação ao volume deacordo com o calculo da DESO ( companhia de agua do Brasil) e faça uma pequeno relatorio de quando os dados estão corretos. Dados: {todas_leituras}")
+
+print(resposta)
