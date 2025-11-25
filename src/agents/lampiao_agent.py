@@ -41,3 +41,14 @@ class AgenteLampiao:
         resultado = self.lampiao.chat(f"faça um relatorio dos dados, nesse relatorio deve ter calculos de estatisticas utilizado pela DESO para analisar seguindo as metricas do DURH: {dados_brutos}, retonando a resposta se está aprovado ou não, seguindo esses criterios {self.regras_durh}, não utilize tabelas formatada e mostre todos os dados na formatação do markdown ")
         print(f"\n 🤖 [AGENTE] Análise completa: {resultado}")
         return resultado
+    
+    def responder_duvida(self, dados_brutos, pergunta):
+
+        prompt = f""" Você é um auditor fiscal specialista. Analise os sequintes dados de telementria: {dados_brutos}
+    Responda á seguinte pergunta  do usúario com base APENAS nós dados utilizados e nas regras de medições {self.regras_durh}. A pergunta é : {pergunta}  formate o texto para uma div html sem o ```html```   
+"""
+        
+        resultado = self.lampiao.chat(prompt)
+
+        return resultado
+    

@@ -17,7 +17,8 @@ class AnaDatabase:
         
     def _connect(self):
         print("- Conectando ao banco de dados")
-        self.conn =sqlite3.connect(self.db_name)
+        # ADICIONE O check_same_thread=False AQUI:
+        self.conn = sqlite3.connect(self.db_name, check_same_thread=False) 
         self.cursor = self.conn.cursor()
 
     def _criarTabelas(self):
