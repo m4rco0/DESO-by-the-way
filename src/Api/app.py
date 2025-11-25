@@ -36,9 +36,3 @@ def relatorio_web():
     except Exception as e:
         traceback.print_exc()
         return f"<h1>Erro interno: {str(e)}</h1>", 500
-    
-@app.route("/", methods=["GET"])
-def home():
-    return render_template("index.html")
-
-app.run('0.0.0.0', 8080)

@@ -38,6 +38,6 @@ class AgenteLampiao:
             return relatorio
         
 
-        resultado = self.lampiao.chat(f"faça um relatorio dos dados, nesse relatorio deve ter calculos de estatisticas utilizado pela DESO para analisar seguindo as metricas do DURH: {dados_brutos}, retonando a resposta se está aprovado ou não, seguindo esses criterios {self.regras_durh}")
+        resultado = self.lampiao.chat(f"faça um relatorio dos dados, nesse relatorio deve ter calculos de estatisticas utilizado pela DESO para analisar seguindo as metricas do DURH: {dados_brutos}, retonando a resposta se está aprovado ou não, seguindo esses criterios {self.regras_durh}, não utilize tabelas formatada e mostre todos os dados na formatação do markdown ")
         print(f"\n 🤖 [AGENTE] Análise completa: {resultado}")
         return resultado

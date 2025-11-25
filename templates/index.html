@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Mangaba AI</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            /* Centralizar verticalmente e horizontalmente */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .logo-placeholder {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .btn-principal {
+            display: inline-block;
+            text-decoration: none;
+            color: #fff;
+            /* Usando a cor de destaque (laranja) do relatório para o botão principal */
+            background-color: #e67e22; 
+            padding: 15px 40px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            
+            /* Ajustes específicos para tag <button> */
+            border: none;
+            cursor: pointer;
+            font-family: inherit; /* Garante que o botão use a mesma fonte da página */
+        }
+
+        .btn-principal:hover {
+            background-color: #d35400;
+            transform: translateY(-2px);
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: #bdc3c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-placeholder">🌵</div>
+        
+        <h1>Lampiao AI</h1>
+        
+        <p class="subtitle">
+            Sistema de Monitoria, Adequação e Fiscalização de Telemetria.
+        </p>
+
+        <form action="/relatorio-web" method="get">
+            <button type="submit" class="btn-principal">
+                Acessar Relatórios
+            </button>
+        </form>
+
+        <footer>
+            &copy; 2025 Mangaba AI - Agente Lampião
+        </footer>
+    </div>
+
+</body>
+</html>
