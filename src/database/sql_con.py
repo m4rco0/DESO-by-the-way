@@ -102,22 +102,38 @@ class AnaDatabase:
         except json.JSONDecodeError as e:
             print(f"[!] Error no econde do JSON: {e}")
             return
-        
-        intervencao_id = dados.get('intervencao_id', "")
-        leituras = dados.get('leituras', [])
-
-        if not intervencao_id:
-            print("\t[!] Aviso: 'intervencao_id' vazio ou não encontrado.")
-
-        if not leituras:
-            print("\t[!] Nenhuma leitura encontrada no JSON.")
-            return
 
         inserted_count = 0
-        
-        for leitura in leituras:
-            if self._inserir_leitura_unica(intervencao_id, leitura):
-                inserted_count += 1
+
+        def _processar_item(item):
+            nonlocal inserted_count
+            intervencao_id = item.get('intervencao_id')
+            leituras = item.get('leituras', [])
+
+            if not intervencao_id:
+                print("\t[!] Aviso: 'intervencao_id' vazio ou não encontrado para um item. Pulando.")
+                return
+
+            if not leituras:
+                print(f"\t[!] Nenhuma leitura encontrada no JSON para intervencao_id '{intervencao_id}'.")
+                return
+
+            for leitura in leituras:
+                if self._inserir_leitura_unica(intervencao_id, leitura):
+                    inserted_count += 1
+
+        # aceita um array de objetos ou um único objeto
+        if isinstance(dados, list):
+            for item in dados:
+                if isinstance(item, dict):
+                    _processar_item(item)
+                else:
+                    print("\t[!] Item do array não é um objeto. Pulando.")
+        elif isinstance(dados, dict):
+            _processar_item(dados)
+        else:
+            print("\t[!] Formato de JSON não esperado. Deve ser um objeto ou um array de objetos.")
+            return
 
         self.conn.commit()
         print(f"[+] Processo finalizado. {inserted_count} novas leituras inseridas.")
@@ -125,11 +141,17 @@ class AnaDatabase:
     def buscar_leituras(self, intervencao_id=None):
         """
         Busca leituras no banco. 
-        Se passar um ID, filtra por ele. Se não, traz tudo.
+        Se passar um ID (str) filtra por ele.
+        Se passar uma lista/tupla, filtra por vários usando IN.
+        Se não, traz tudo.
         Retorna uma lista de dicionários.
         """
-        if intervencao_id:
-            query = "SELECT * FROM leituras"
+        if isinstance(intervencao_id, (list, tuple)) and intervencao_id:
+            placeholders = ",".join("?" for _ in intervencao_id)
+            query = f"SELECT * FROM leituras WHERE intervencao_id IN ({placeholders})"
+            params = tuple(intervencao_id)
+        elif intervencao_id:
+            query = "SELECT * FROM leituras WHERE intervencao_id = ?"
             params = (intervencao_id,)
         else:
             query = "SELECT * FROM leituras"
